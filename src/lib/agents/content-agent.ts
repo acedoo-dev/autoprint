@@ -69,66 +69,12 @@ export async function generatePlannerContent(
   const accentColor = COLORS[Math.floor(Math.random() * COLORS.length)];
 
   const prompt = language === "fr"
-    ? `Tu es un expert en création de planificateurs numériques premium vendus sur Ko-fi.
-Génère le contenu complet pour un "${productType}" en FRANÇAIS.
-Le produit doit être professionnel, utile et attrayant pour des acheteurs québécois/français.
-
-Réponds UNIQUEMENT avec un JSON valide dans ce format exact:
-{
-  "title": "Titre accrocheur (max 60 caractères)",
-  "subtitle": "Sous-titre descriptif (max 80 caractères)",
-  "description": "Description courte pour l'en-tête du PDF (1-2 phrases)",
-  "kofiDescription": "Description complète pour le listing Ko-fi (150-200 mots), inclus les avantages, ce que contient le produit, à qui c'est destiné. Mentionne que c'est un téléchargement numérique instantané en PDF.",
-  "tags": ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"],
-  "suggestedPriceUSD": 7,
-  "pages": [
-    {
-      "title": "Titre de la page",
-      "sections": [
-        {
-          "label": "Étiquette de section",
-          "type": "lines|checkbox|grid|freeform|time-slots",
-          "rows": 8,
-          "items": ["item1", "item2"]
-        }
-      ]
-    }
-  ]
-}
-
-Crée 4-6 pages utiles et bien structurées selon le type de planificateur.
-Pour les checkboxes: inclus des items dans "items". Pour les time-slots: inclus les heures dans "items" (ex: "06:00", "07:00").
-Les tags doivent être en français et pertinents pour la recherche Ko-fi.`
-    : `You are an expert at creating premium digital planners sold on Ko-fi.
-Generate complete content for a "${productType}" in ENGLISH.
-The product must be professional, useful, and appealing to buyers looking for quality planners.
-
-Respond ONLY with valid JSON in this exact format:
-{
-  "title": "Catchy title (max 60 chars)",
-  "subtitle": "Descriptive subtitle (max 80 chars)",
-  "description": "Short description for PDF header (1-2 sentences)",
-  "kofiDescription": "Full Ko-fi listing description (150-200 words), include benefits, what's included, who it's for. Mention it's an instant digital PDF download.",
-  "tags": ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"],
-  "suggestedPriceUSD": 7,
-  "pages": [
-    {
-      "title": "Page title",
-      "sections": [
-        {
-          "label": "Section label",
-          "type": "lines|checkbox|grid|freeform|time-slots",
-          "rows": 8,
-          "items": ["item1", "item2"]
-        }
-      ]
-    }
-  ]
-}
-
-Create 4-6 useful, well-structured pages for this type of planner.
-For checkboxes: include items in "items". For time-slots: include hours in "items" (e.g. "6:00 AM", "7:00 AM").
-Tags must be relevant English search terms buyers would use on Ko-fi/Etsy.`;
+    ? `Expert planificateurs numériques Ko-fi. Génère un "${productType}" en FRANÇAIS.
+JSON UNIQUEMENT, 3 pages max, sections courtes:
+{"title":"<60 chars","subtitle":"<80 chars","description":"1 phrase","kofiDescription":"80 mots max, PDF instantané","tags":["t1","t2","t3","t4","t5","t6"],"suggestedPriceUSD":7,"pages":[{"title":"titre","sections":[{"label":"label","type":"lines|checkbox|time-slots|freeform","rows":6,"items":["i1","i2"]}]}]}`
+    : `Expert digital planners Ko-fi. Generate a "${productType}" in ENGLISH.
+JSON ONLY, max 3 pages, short sections:
+{"title":"<60 chars","subtitle":"<80 chars","description":"1 sentence","kofiDescription":"80 words max, instant PDF download","tags":["t1","t2","t3","t4","t5","t6"],"suggestedPriceUSD":7,"pages":[{"title":"title","sections":[{"label":"label","type":"lines|checkbox|time-slots|freeform","rows":6,"items":["i1","i2"]}]}]}`;
 
   const res = await anthropic.messages.create({
     model: MODEL,
